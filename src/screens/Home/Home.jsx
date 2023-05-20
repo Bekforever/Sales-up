@@ -1,16 +1,8 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchUsers } from '../../store/reducers/users/users.actions'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 
 const Home = () => {
 	const dispatch = useDispatch()
-	const { loading, users } = useSelector(store => store.users)
-
-	useEffect(() => {
-		dispatch(fetchUsers({ id: 1 }))
-		console.log(loading)
-		console.log(users)
-	}, [])
 
 	return (
 		<div>

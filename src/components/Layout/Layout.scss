@@ -15,13 +15,13 @@
 				@apply text-[1.2rem] cursor-pointer;
 			}
 			.lang__popup {
-				@apply absolute right-0 mt-28 bg-white shadow-md overflow-hidden py-[10px] px-3 rounded-md w-[64px] h-[100px];
+				@apply absolute right-0 mt-32 bg-white shadow-md overflow-hidden py-[10px] px-3 rounded-md w-[64px] h-[100px] flex items-center justify-center;
 				ul {
-					@apply flex flex-col items-center justify-between gap-y-3 overflow-hidden;
+					@apply flex flex-col items-center justify-between gap-y-5 overflow-hidden;
 					li {
-						@apply cursor-pointer;
+						@apply w-full bg-[#1976d214] cursor-pointer;
 						&:active {
-							@apply font-bold bg-[#1976d214];
+							@apply font-bold;
 						}
 					}
 				}

@@ -1,37 +1,38 @@
-import Sider from 'antd/es/layout/Sider'
-import React, { useState } from 'react'
-import Layout from 'antd/es/layout/layout'
 import { Menu } from 'antd'
+import Sider from 'antd/es/layout/Sider'
+import Layout from 'antd/es/layout/layout'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axiosBasic from '../../services/axios/axiosBasic'
 import './Layout.scss'
-import { Link } from 'react-router-dom'
-
-// func for aside ANTD start
-function getItem(label, key, icon, children) {
-	return {
-		key,
-		children,
-		icon,
-		label,
-	}
-}
-const items = [
-	getItem(<Link to={'/'}>Главная</Link>, '1', <i className='bx bx-home'></i>),
-	getItem('Лиды', '2', <i className='bx bxs-contact'></i>),
-	getItem('Заказы', '3', <i className='bx bx-cart-add'></i>),
-	getItem('Курсы', '4', <i className='bx bx-notepad'></i>),
-	getItem('Источники', '5', <i className='bx bx-radio-circle-marked'></i>),
-	getItem('Инструменты', '6', <i className='bx bx-wrench'></i>),
-	getItem('Настройки', '7', <i className='bx bx-slider'></i>),
-	getItem('Logout', '8', <i className='bx bx-log-out'></i>),
-]
-// func for aside ANTD end
 
 const Layouts = () => {
+	const navigate = useNavigate()
 	const [collapsed, setCollapsed] = useState(false)
 	const [langOpen, setLangOpen] = useState(false)
 	const [selectedLang, setSelectedLang] = useState(0)
 	const langList = ['ru', 'en']
 	const langName = langList[selectedLang]
+	const [currentUser, setCurrentUser] = useState('')
+	const [token, setToken] = useState(localStorage.getItem('token'))
+
+	// check token
+	useEffect(() => {
+		if (localStorage.getItem('token')) {
+			const tokenToCheck = localStorage.getItem('token')
+			axiosBasic
+				.post('/auth/check', tokenToCheck, {
+					headers: {
+						Authorization: 'Bearer ' + localStorage.getItem('token'),
+					},
+				})
+				.then(res => {
+					// console.log(res)
+					setCurrentUser(res.data.data.name)
+				})
+				.catch(err => console.log(err))
+		}
+	}, [])
 
 	// onclick language
 	const onClickListItem = i => {
@@ -39,6 +40,68 @@ const Layouts = () => {
 		setSelectedLang(i)
 		setLangOpen(false)
 	}
+
+	// func for aside ANTD start
+	function getItem(label, key, icon, children) {
+		return {
+			key,
+			children,
+			icon,
+			label,
+		}
+	}
+	function logout() {
+		axiosBasic
+			.post('auth/logout', token, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.then(() => {
+				navigate('/auth', { replace: true })
+				localStorage.removeItem('token')
+			})
+			.catch(() => navigate('/auth', { replace: true }))
+	}
+	const items = [
+		getItem(<Link to={'/'}>Главная</Link>, '1', <i className='bx bx-home'></i>),
+		getItem(
+			<Link to={'/leads'}>Лиды</Link>,
+			'2',
+			<i className='bx bxs-contact'></i>
+		),
+		getItem(
+			<Link to={'/orders'}>Заказы</Link>,
+			'3',
+			<i className='bx-cart-add bx'></i>
+		),
+		getItem(
+			<Link to={'/courses'}>Курсы</Link>,
+			'4',
+			<i className='bx bx-notepad'></i>
+		),
+		getItem(
+			<Link to={'/source'}>Источники</Link>,
+			'5',
+			<i className='bx bx-radio-circle-marked'></i>
+		),
+		getItem(
+			<Link to={'/tools'}>Инструменты</Link>,
+			'6',
+			<i className='bx bx-wrench'></i>
+		),
+		getItem(
+			<Link to={'/settings'}>Настройки</Link>,
+			'7',
+			<i className='bx bx-slider'></i>
+		),
+		getItem(
+			<button onClick={logout}>Logout</button>,
+			'8',
+			<i className='bx bx-log-out'></i>
+		),
+	]
+	// func for aside ANTD end
 
 	return (
 		<div className='layout__wrapper'>
@@ -73,8 +136,9 @@ const Layouts = () => {
 						className='text-2xl text-white'
 						onClick={() => setCollapsed(!collapsed)}
 					>
-						<i class='bx bx-menu'></i>
+						<i className='bx bx-menu'></i>
 					</button>
+					<h2 className='text-2xl ml-5'>{currentUser}</h2>
 				</div>
 				<div className='layout__wrapper__header__lang'>
 					<span className='popup-btn' onClick={() => setLangOpen(!langOpen)}>
