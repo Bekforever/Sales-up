@@ -10,6 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.1.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.1",
+    "@mui/styled-engine-sc": "^5.12.0",
+    "@mui/x-data-grid": "^6.5.0",
     "@reduxjs/toolkit": "^1.9.5",
     "antd": "^5.5.0",
     "axios": "^1.4.0",
@@ -19,7 +25,8 @@
     "react-router-dom": "^6.11.2",
     "redux": "^4.2.1",
     "sass": "^1.62.1",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "styled-components": "^5.3.10"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

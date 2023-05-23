@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import axiosBasic from '../../services/axios/axiosBasic'
-import { addToken } from '../../store/reducers/token/tokenSlice'
 import './Auth.scss'
+import { authModel } from '../../store/authModel'
 
 const Auth = () => {
 	const [currentUser, setCurrentUser] = useState({
@@ -15,19 +15,17 @@ const Auth = () => {
 	const dispatch = useDispatch()
 	// check
 	useEffect(() => {
-		if (localStorage.getItem('token')) {
-			const tokenToCheck = localStorage.getItem('token')
-			axiosBasic
-				.post('/auth/check', tokenToCheck, {
-					headers: {
-						Authorization: 'Bearer ' + localStorage.getItem('token'),
-					},
-				})
-				.then(res => {
-					navigate('/', { replace: true })
-				})
-				.catch(err => console.log(err))
-		}
+		const tokenToCheck = localStorage.getItem('token')
+		axiosBasic
+			.post('/auth/check', tokenToCheck, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.then(res => {
+				navigate('/', { replace: true })
+			})
+			.catch(err => console.log(err))
 	}, [])
 
 	// on click submit button
@@ -36,7 +34,7 @@ const Auth = () => {
 		axiosBasic
 			.post('/auth/login', currentUser)
 			.then(res => {
-				dispatch(addToken(res.data.data.token))
+				dispatch(authModel.actions.addToken(res.data.data.token))
 				navigate('/', { replace: true })
 			})
 			.catch(e => console.log(e))
