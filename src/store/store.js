@@ -4,6 +4,7 @@ import { setAutoFreeze } from 'immer'
 import { authModel } from './authModel'
 import { ordersModel } from './ordersModel'
 import { sourceModel } from './sourceModel'
+import { toolsModel } from './toolsModel'
 import { usersModel } from './usersModel'
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
 	auth: authModel.reducer,
 	orders: ordersModel.reducer,
 	source: sourceModel.reducer,
+	tools: toolsModel.reducer,
 })
 
 const store = configureStore({

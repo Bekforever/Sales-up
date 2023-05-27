@@ -1,21 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-	orders: [],
+	tools: [],
 }
 
 export const { reducer, actions: reducerActions } = createSlice({
-	name: 'orders',
+	name: 'tools',
 	initialState,
 	reducers: {
-		fetchOrders: (state, action) => {
-			state.orders = action.payload
-		},
-		changeStatus: (state, action) => {
-			state.users = action.payload
+		fetchTools: (state, action) => {
+			state.tools = action.payload
 		},
 	},
 })
+
 export const actions = {
-	...reducerActions,
+  ...reducerActions
 }

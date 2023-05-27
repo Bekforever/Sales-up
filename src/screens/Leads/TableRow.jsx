@@ -11,19 +11,6 @@ const CustomTableRow = ({ user }) => {
 	const [allStatuses, setAllStatuses] = useState([])
 	const stateUsers = useSelector(state => state.users.users)
 
-	const handleChange = event => {
-		setStatus(event.target.value)
-		const newStatus = event.target.value
-		const updatedUsers = stateUsers.map(stateUser => {
-			if (stateUser.id === user.id) {
-				return { ...stateUser, status: newStatus }
-			}
-			return stateUser
-		})
-
-		dispath(usersModel.actions.changeStatus(updatedUsers))
-	}
-
 	useEffect(() => {
 		axiosBasic
 			.get('/statuses', {
@@ -31,8 +18,39 @@ const CustomTableRow = ({ user }) => {
 					Authorization: 'Bearer ' + localStorage.getItem('token'),
 				},
 			})
-			.then(res => setAllStatuses(res.data.data))
+			.then(res => {
+				setAllStatuses(res.data.data)
+			})
 	}, [])
+
+	const handleChange = event => {
+		setStatus(event.target.value)
+		// const [updatedUser, setUpdatedUser] = useState({})
+		// const [id, setId] = useState(0)
+		// allStatuses.map(i => {
+		// 	i.name === status ? setId(i.id) : ''
+		// })
+		const updatedUsers = stateUsers.map(stateUser => {
+			if (stateUser.id === user.id) {
+				return { ...stateUser, status: status }
+			}
+			return stateUser
+			// 	setUpdatedUser({
+			// 		...stateUser,
+			// 		status_id: id,
+			// 	})
+			// }
+			// axios
+			// 	.put(`/leads/${user.id}?status_id=${id}`, updatedUser, {
+			// 		headers: {
+			// 			Authorization: 'Bearer ' + localStorage.getItem('token'),
+			// 		},
+			// 	})
+			// 	.then(res => console.log(res))
+			// return updatedUser
+		})
+		dispath(usersModel.actions.changeStatus(updatedUsers))
+	}
 
 	return (
 		<TableCell align='right'>
@@ -43,7 +61,7 @@ const CustomTableRow = ({ user }) => {
 						labelId='demo-simple-select-label'
 						id='demo-simple-select'
 						value={status}
-						label='status'
+						label={status}
 						onChange={handleChange}
 					>
 						{allStatuses.map(s => (

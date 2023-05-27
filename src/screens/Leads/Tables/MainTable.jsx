@@ -66,7 +66,7 @@ const MainTable = ({ page, setPage, rowsPerPage, setRowsPerPage }) => {
 									<CustomTableRow user={item} />
 									<TableCell align='left'>{item.comment}</TableCell>
 									<TableCell align='left'>
-										<ActionsRow />
+										<ActionsRow user={item} />
 									</TableCell>
 								</TableRow>
 							))}
