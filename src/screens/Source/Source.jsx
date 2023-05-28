@@ -75,6 +75,11 @@ const Source = () => {
 			.then(res => console.log(res))
 			.finally(() => setLoading(false))
 		console.log(sel)
+		setOpen(false)
+		setNewSource({
+			name: '',
+			type: '',
+		})
 	}
 
 	return (

@@ -7,6 +7,7 @@ import { statusesModel } from './settingsModel/statuses'
 import { sourceModel } from './sourceModel'
 import { toolsModel } from './toolsModel'
 import { usersModel } from './usersModel'
+import { courseModel } from './courseModel'
 
 const rootReducer = combineReducers({
 	users: usersModel.reducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
 	source: sourceModel.reducer,
 	tools: toolsModel.reducer,
 	statuses: statusesModel.reducer,
+	courses: courseModel.reducer
 })
 
 const store = configureStore({
