@@ -47,6 +47,17 @@ const Settings = () => {
 								</button>
 							</div>
 						</li>
+						<li className='flex items-center justify-between border-[1px] border-[#adadad] py-3 px-2 rounded-md text-lg'>
+							<span>started</span>
+							<div className='flex items-center text-2xl gap-x-5 text-[#797575]'>
+								<button>
+									<i className='bx bx-pencil'></i>
+								</button>
+								<button>
+									<i className='bx bx-trash'></i>
+								</button>
+							</div>
+						</li>
 					</ul>
 				</form>
 			</div>
@@ -75,12 +86,28 @@ const Settings = () => {
 				</table>
 			</div>
 			<div className='flex-1 flex flex-col bg-white rounded-md shadow-md min-h-[200px] p-5'>
-				<h2 className='text-2xl border-[#adadad] border-b-[1px] mb-5'>Create Bot</h2>
+				<h2 className='text-2xl border-[#adadad] border-b-[1px] mb-5'>
+					Create Bot
+				</h2>
 				<form className='flex flex-col gap-y-5'>
-					<input type='text' className='border-[#adadad] outline-0 border-[1px] py-2 px-4 rounded-md text-lg' placeholder='Username...' />
-					<input type='text' className='border-[#adadad] outline-0 border-[1px] py-2 px-4 rounded-md text-lg' placeholder='Token...' />
-					<input type='text' className='border-[#adadad] outline-0 border-[1px] py-2 px-4 rounded-md text-lg' placeholder='Contact...' />
-					<Button type='primary' className='bg-[#1976D2]'>asdasd</Button>
+					<input
+						type='text'
+						className='border-[#adadad] outline-0 border-[1px] py-2 px-4 rounded-md text-lg'
+						placeholder='Username...'
+					/>
+					<input
+						type='text'
+						className='border-[#adadad] outline-0 border-[1px] py-2 px-4 rounded-md text-lg'
+						placeholder='Token...'
+					/>
+					<input
+						type='text'
+						className='border-[#adadad] outline-0 border-[1px] py-2 px-4 rounded-md text-lg'
+						placeholder='Contact...'
+					/>
+					<Button type='primary' className='bg-[#1976D2]'>
+						Create
+					</Button>
 				</form>
 			</div>
 		</div>

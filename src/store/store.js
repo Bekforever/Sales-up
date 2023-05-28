@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { setAutoFreeze } from 'immer'
 import { authModel } from './authModel'
 import { ordersModel } from './ordersModel'
+import { statusesModel } from './settingsModel/statuses'
 import { sourceModel } from './sourceModel'
 import { toolsModel } from './toolsModel'
 import { usersModel } from './usersModel'
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
 	orders: ordersModel.reducer,
 	source: sourceModel.reducer,
 	tools: toolsModel.reducer,
+	statuses: statusesModel.reducer,
 })
 
 const store = configureStore({
