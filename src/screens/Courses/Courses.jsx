@@ -16,6 +16,7 @@ import './Courses.scss'
 
 const Courses = () => {
 	const [open, setOpen] = useState(false)
+	const [isEdited, setIsEdited] = useState(0)
 	const [loading, setLoading] = useState(false)
 	const [newCourse, setNewCourse] = useState({
 		title: '',
@@ -35,7 +36,7 @@ const Courses = () => {
 			.then(res => {
 				dispatch(courseModel.actions.fetchCourses(res.data.data))
 			})
-	}, [allCourses.length])
+	}, [allCourses.length, isEdited])
 
 	const showDrawer = () => {
 		setOpen(true)
@@ -119,8 +120,8 @@ const Courses = () => {
 						<TableBody>
 							{allCourses.map(row => (
 								<TableRow
-									key={row.id}
-									sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+								key={row.id}
+								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 								>
 									<TableCell component='th' scope='row'>
 										{row.id}
@@ -130,7 +131,7 @@ const Courses = () => {
 									<TableCell>{row.price}</TableCell>
 									<TableCell>{row.clicked}</TableCell>
 									<TableCell>
-										<ActionsTable course={row} />
+										<ActionsTable isEdited={isEdited} setIsEdited={setIsEdited} course={row} />
 									</TableCell>
 								</TableRow>
 							))}

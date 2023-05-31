@@ -12,9 +12,15 @@ export const { reducer, actions: reducerActions } = createSlice({
 			state.users = action.payload
 		},
 		changeStatus: (state, action) => {
-			state.users = action.payload;
+			state.users = action.payload;	
+		},
+		addComment: (state, action) => {
+			state.users.find(user => {
+				if (user.id === action.payload.id) {
+					user.comment = action.payload.comment
+				}
+			})
 		}
-		
 	},
 })
 export const actions = {

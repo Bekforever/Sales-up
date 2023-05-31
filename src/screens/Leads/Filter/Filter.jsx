@@ -1,34 +1,45 @@
 import { Button, IconButton, TextField } from '@mui/material'
+import { Popover } from 'antd'
 import { DatePicker } from 'antd/lib'
 import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState } from 'react'
 import axiosBasic from '../../../services/axios/axiosBasic'
 const { RangePicker } = DatePicker
 
-const Filter = ({ isFiltered, setIsFiltered }) => {
-	const [nameSearch, setNameSearch] = useState('')
-	const [phoneSearch, setPhoneSearch] = useState('')
-	const [dateFrom, setDateFrom] = useState(undefined)
-	const [dateTo, setDateTo] = useState(undefined)
-	const dispatch = useDispatch()
+const Filter = ({ name, setName, phone, setPhone, setDateFrom, setDateTo }) => {
+	const [messageToAll, setMessageToAll] = useState({ text: '' })
+	const [open, setOpen] = useState(false)
 
-	useEffect(() => {
-		if (nameSearch || phoneSearch || dateFrom || dateTo) {
-			setIsFiltered(1)
-			axiosBasic
-				.get(
-					`/leads?name=${nameSearch}&phone=${phoneSearch}&from=${dateFrom}&to=${dateTo}&limit=10000`,
-					{
-						headers: {
-							Authorization: 'Bearer ' + localStorage.getItem('token'),
-						},
-					}
-				)
-				.then(res => console.log(res))
-			//dispatch(usersModel.actions.fetchUsers(res.data.data))
-		}
-	}, [nameSearch, phoneSearch, dateFrom, dateTo])
+	const send = () => {
+		setOpen(false)
+		console.log(messageToAll)
+		axiosBasic
+			.post('/sendmsgall', messageToAll, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.then(res => console.log(res))
+	}
+
+	const handleOpenChange = newOpen => {
+		setOpen(newOpen)
+	}
+
+	const content = () => (
+		<div className='flex flex-col gap-y-5'>
+			<textarea
+				value={messageToAll.text}
+				onChange={e => setMessageToAll({ text: e.target.value })}
+				rows={4}
+				type='text'
+				className='border-[1px] border-black py-2 px-4 rounded-md min-h-[100px] resize-none'
+			/>
+			<a className='text-[#1677ff]' onClick={send}>
+				Send
+			</a>
+		</div>
+	)
 
 	// date picker
 	const onRangeChange = (dates, dateStrings) => {
@@ -61,17 +72,18 @@ const Filter = ({ isFiltered, setIsFiltered }) => {
 	]
 
 	const clearValues = () => {
-		setNameSearch('')
-		setPhoneSearch('')
+		setName('')
+		setPhone('')
 	}
+
 	return (
 		<>
 			<div className='leads__wrapper p-5'>
 				<div className='search flex items-center gap-5 mb-2'>
 					<label>
 						<TextField
-							value={nameSearch}
-							onChange={e => setNameSearch(e.target.value)}
+							value={name}
+							onChange={e => setName(e.target.value)}
 							id='outlined-basic'
 							label='Name'
 							variant='outlined'
@@ -79,8 +91,8 @@ const Filter = ({ isFiltered, setIsFiltered }) => {
 					</label>
 					<label>
 						<TextField
-							value={phoneSearch}
-							onChange={e => setPhoneSearch(e.target.value)}
+							value={phone}
+							onChange={e => setPhone(e.target.value)}
 							id='outlined-basic'
 							label='Phone'
 							variant='outlined'
@@ -97,9 +109,17 @@ const Filter = ({ isFiltered, setIsFiltered }) => {
 						<Button type={'text'} onClick={clearValues}>
 							Clear
 						</Button>
-						<IconButton aria-label='delete'>
-							<i className='bx bxl-telegram'></i>
-						</IconButton>
+						<Popover
+							content={content}
+							title='Send message to all'
+							trigger='click'
+							open={open}
+							onOpenChange={handleOpenChange}
+						>
+							<IconButton aria-label='delete'>
+								<i className='bx bxl-telegram'></i>
+							</IconButton>
+						</Popover>
 					</div>
 				</div>
 			</div>

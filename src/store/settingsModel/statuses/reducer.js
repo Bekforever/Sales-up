@@ -9,7 +9,12 @@ export const { reducer, actions: reducerActions } = createSlice({
 	initialState,
 	reducers: {
 		fetchStatuses: (state, action) => {
-			state.source = action.payload
+			state.statuses = action.payload
+		},
+		removeStatus: (state, action) => {
+			state.statuses = state.statuses.filter(
+				status => status.id !== action.payload
+			)
 		},
 	},
 })

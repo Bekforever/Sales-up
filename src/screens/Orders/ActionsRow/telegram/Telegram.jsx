@@ -2,20 +2,22 @@ import { Popover } from 'antd'
 import React, { useState } from 'react'
 import axiosBasic from '../../../../services/axios/axiosBasic'
 
-const Telegram = user => {
+const Telegram = order => {
 	const [open, setOpen] = useState(false)
 	const [message, setMessage] = useState({
 		text: '',
-		lead_id: user.user.id,
+		lead_id: order.order.lead_id,
 	})
 	const send = () => {
 		setOpen(false)
 		setMessage('')
-		axiosBasic.post('/messages', message, {
-			headers: {
-				Authorization: 'Bearer ' + localStorage.getItem('token'),
-			},
-		})
+		axiosBasic
+			.post('/messages', message, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.then(res => console.log(res))
 	}
 
 	const handleOpenChange = newOpen => {

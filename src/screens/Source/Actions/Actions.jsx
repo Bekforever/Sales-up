@@ -41,8 +41,8 @@ const Actions = ({ source }) => {
 
 	const onSubmit = () => {
 		const obj = { id: source.id, ...newDataSource }
-		axios
-			.put(`${baseURL}/sources`, obj, {
+		axiosBasic
+			.put(`/sources/${source.id}`, obj, {
 				headers: {
 					Authorization: 'Bearer ' + localStorage.getItem('token'),
 				},

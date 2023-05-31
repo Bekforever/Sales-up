@@ -1,4 +1,5 @@
-import { Button, IconButton, TextField } from '@mui/material'
+import { Button, TextField } from '@mui/material'
+import { Select } from 'antd'
 import { DatePicker } from 'antd/lib'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
@@ -6,29 +7,15 @@ import { useDispatch } from 'react-redux'
 import axiosBasic from '../../../services/axios/axiosBasic'
 const { RangePicker } = DatePicker
 
-const Filter = ({ isFiltered, setIsFiltered }) => {
-	const [nameSearch, setNameSearch] = useState('')
-	const [phoneSearch, setPhoneSearch] = useState('')
-	const [dateFrom, setDateFrom] = useState(undefined)
-	const [dateTo, setDateTo] = useState(undefined)
+const Filter = ({
+	leadId,
+	setLeadId,
+	courseId,
+	setCourseId,
+	setDateFrom,
+	setDateTo,
+}) => {
 	const dispatch = useDispatch()
-
-	useEffect(() => {
-		if (nameSearch || phoneSearch || dateFrom || dateTo) {
-			setIsFiltered(1)
-			axiosBasic
-				.get(
-					`/leads?name=${nameSearch}&phone=${phoneSearch}&from=${dateFrom}&to=${dateTo}&limit=10000`,
-					{
-						headers: {
-							Authorization: 'Bearer ' + localStorage.getItem('token'),
-						},
-					}
-				)
-				.then(res => console.log(res))
-			//dispatch(usersModel.actions.fetchUsers(res.data.data))
-		}
-	}, [nameSearch, phoneSearch, dateFrom, dateTo])
 
 	// date picker
 	const onRangeChange = (dates, dateStrings) => {
@@ -61,28 +48,51 @@ const Filter = ({ isFiltered, setIsFiltered }) => {
 	]
 
 	const clearValues = () => {
-		setNameSearch('')
-		setPhoneSearch('')
+		setLeadId('')
+		setCourseId('')
 	}
+	const [options, setOptions] = useState([])
+
+	useEffect(() => {
+		axiosBasic
+			.get('/courses', {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.then(res => {
+				res.data.data.map(item => {
+					setOptions(prev => [...prev, { label: item.title, value: item.id }])
+				})
+			})
+	}, [])
+
+	const onSelectCourse = e => setCourseId(e)
+
 	return (
 		<>
 			<div className='leads__wrapper p-5'>
 				<div className='search flex items-center gap-5 mb-2'>
 					<label>
-						<TextField
-							value={nameSearch}
-							onChange={e => setNameSearch(e.target.value)}
-							id='outlined-basic'
-							label='Name'
-							variant='outlined'
+						<Select
+							className='w-full rounded-md'
+							placeholder='Выберите'
+							optionFilterProp='children'
+							filterOption={(input, option) =>
+								(option?.label ?? '')
+									.toLowerCase()
+									.includes(input.toLowerCase())
+							}
+							onChange={onSelectCourse}
+							options={options}
 						/>
 					</label>
 					<label>
 						<TextField
-							value={phoneSearch}
-							onChange={e => setPhoneSearch(e.target.value)}
+							value={leadId}
+							onChange={e => setLeadId(e.target.value)}
 							id='outlined-basic'
-							label='Phone'
+							label='Lead id'
 							variant='outlined'
 						/>
 					</label>
@@ -97,9 +107,6 @@ const Filter = ({ isFiltered, setIsFiltered }) => {
 						<Button type={'text'} onClick={clearValues}>
 							Clear
 						</Button>
-						<IconButton aria-label='delete'>
-							<i className='bx bxl-telegram'></i>
-						</IconButton>
 					</div>
 				</div>
 			</div>

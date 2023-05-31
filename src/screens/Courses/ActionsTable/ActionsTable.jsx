@@ -2,10 +2,10 @@ import { Button } from '@mui/material'
 import { Popover } from 'antd'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { courseModel } from '../../../store/courseModel'
 import axiosBasic from '../../../services/axios/axiosBasic'
+import { courseModel } from '../../../store/courseModel'
 
-const ActionsTable = ({ course }) => {
+const ActionsTable = ({ course, setIsEdited, isEdited }) => {
 	const dispatch = useDispatch()
 	const [open, setOpen] = useState(false)
 	const [newDataCourse, setNewDataСourse] = useState({
@@ -28,15 +28,18 @@ const ActionsTable = ({ course }) => {
 			.then(res => console.log(res))
 	}
 
-	const onSubmit = () => {
+	const onEditSubmit = () => {
 		const obj = { id: course.id, ...newDataCourse }
-		// axios
-		// 	.put(`${baseURL}/sources`, obj, {
-		// 		headers: {
-		// 			Authorization: 'Bearer ' + localStorage.getItem('token'),
-		// 		},
-		// 	})
-		// 	.then(res => console.log(res))
+		axiosBasic
+			.put(`/courses/${course.id}`, obj, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.then(res => {
+				console.log(res)
+				setIsEdited(isEdited + 1)
+			})
 		dispatch(
 			courseModel.actions.editCource({
 				...course,
@@ -76,7 +79,7 @@ const ActionsTable = ({ course }) => {
 				}
 				type='text'
 			/>
-			<Button onClick={onSubmit} variant='contained'>
+			<Button onClick={onEditSubmit} variant='contained'>
 				Добавить
 			</Button>
 		</div>

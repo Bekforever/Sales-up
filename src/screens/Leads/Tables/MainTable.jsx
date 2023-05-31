@@ -1,4 +1,3 @@
-import { TablePagination } from '@mui/material'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -6,39 +5,35 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import { Pagination } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import axiosBasic from '../../../services/axios/axiosBasic'
 import ActionsRow from '../ActionsRow/ActionsRow'
 import CustomTableRow from '../TableRow'
 
-const MainTable = ({ page, setPage, rowsPerPage, setRowsPerPage }) => {
-	const [usersNumber, setUsersNumber] = useState(0)
-
+const MainTable = ({ page, setPage, countUsers }) => {
+	const [allStatuses, setAllStatuses] = useState([])
 	const users = useSelector(state => state.users.users)
 
-	// total users number for pagination
 	useEffect(() => {
 		axiosBasic
-			.get('/leads?limit=100000', {
+			.get('/statuses', {
 				headers: {
 					Authorization: 'Bearer ' + localStorage.getItem('token'),
 				},
 			})
-			.then(res => setUsersNumber(res.data.total))
+			.then(res => {
+				setAllStatuses(res.data.data)
+			})
 	}, [])
 
-	// pagination
-	const handleChangePage = (event, newPage) => {
-		setPage(newPage)
-	}
-	const handleChangeRowsPerPage = event => {
-		setRowsPerPage(+event.target.value)
-		setPage(0)
+	const handleChangePage = event => {
+		setPage(event)
 	}
 
 	return (
-		<>
+		<div>
 			<TableContainer component={Paper}>
 				<Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
 					<TableHead>
@@ -63,7 +58,7 @@ const MainTable = ({ page, setPage, rowsPerPage, setRowsPerPage }) => {
 									</TableCell>
 									<TableCell align='left'>{item.name}</TableCell>
 									<TableCell align='left'>{item.phone}</TableCell>
-									<CustomTableRow user={item} />
+									<CustomTableRow allStatuses={allStatuses} user={item} />
 									<TableCell align='left'>{item.comment}</TableCell>
 									<TableCell align='left'>
 										<ActionsRow user={item} />
@@ -73,16 +68,16 @@ const MainTable = ({ page, setPage, rowsPerPage, setRowsPerPage }) => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-			<TablePagination
-				rowsPerPageOptions={[5, 10, 25]}
-				component='div'
-				count={usersNumber}
-				rowsPerPage={rowsPerPage}
-				page={+page}
-				onPageChange={handleChangePage}
-				onRowsPerPageChange={handleChangeRowsPerPage}
-			/>
-		</>
+			<div className='py-6'>
+				<Pagination
+					total={countUsers}
+					page={page}
+					showSizeChanger={false}
+					defaultPageSize={15}
+					onChange={handleChangePage}
+				/>
+			</div>
+		</div>
 	)
 }
 
