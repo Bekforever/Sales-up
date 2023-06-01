@@ -6,6 +6,7 @@ import axiosBasic from '../../services/axios/axiosBasic'
 import { ordersModel } from '../../store/ordersModel'
 import Filter from '../Orders/Filter/Filter'
 import MainTable from './Table/MainTable'
+import { useNavigate } from 'react-router-dom'
 
 const Orders = () => {
 	const [loading, setLoading] = useState(false)
@@ -18,6 +19,19 @@ const Orders = () => {
 	const debouncedLeadId = useDebounce(leadId, 500)
 	const [dateFrom, setDateFrom] = useState('')
 	const [dateTo, setDateTo] = useState('')
+
+	const navigate = useNavigate()
+	// check
+	const tokenToCheck = localStorage.getItem('token')
+	useEffect(() => {
+		axiosBasic
+			.post('/auth/check', tokenToCheck, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.catch(() => navigate('/auth', { replace: true }))
+	}, [tokenToCheck])
 
 	// table
 	useEffect(() => {

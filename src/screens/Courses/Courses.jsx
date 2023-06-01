@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow'
 import { Drawer, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import axiosBasic from '../../services/axios/axiosBasic'
 import { courseModel } from '../../store/courseModel'
 import ActionsTable from './ActionsTable/ActionsTable'
@@ -25,6 +26,19 @@ const Courses = () => {
 	})
 	const allCourses = useSelector(state => state.courses.courses)
 	const dispatch = useDispatch()
+
+	const navigate = useNavigate()
+	// check
+	const tokenToCheck = localStorage.getItem('token')
+	useEffect(() => {
+		axiosBasic
+			.post('/auth/check', tokenToCheck, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.catch(() => navigate('/auth', { replace: true }))
+	}, [tokenToCheck])
 
 	useEffect(() => {
 		axiosBasic
@@ -120,8 +134,8 @@ const Courses = () => {
 						<TableBody>
 							{allCourses.map(row => (
 								<TableRow
-								key={row.id}
-								sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+									key={row.id}
+									sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
 								>
 									<TableCell component='th' scope='row'>
 										{row.id}
@@ -131,7 +145,11 @@ const Courses = () => {
 									<TableCell>{row.price}</TableCell>
 									<TableCell>{row.clicked}</TableCell>
 									<TableCell>
-										<ActionsTable isEdited={isEdited} setIsEdited={setIsEdited} course={row} />
+										<ActionsTable
+											isEdited={isEdited}
+											setIsEdited={setIsEdited}
+											course={row}
+										/>
 									</TableCell>
 								</TableRow>
 							))}

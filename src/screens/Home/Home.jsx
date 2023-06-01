@@ -1,16 +1,21 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import axiosBasic from '../../services/axios/axiosBasic'
 
 const Home = () => {
-	const dispatch = useDispatch()
-
-	return (
-		<div>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, aut
-			temporibus officiis veniam eaque asperiores quibusdam iure modi optio.
-			Aliquid.
-		</div>
-	)
+	const navigate = useNavigate()
+	// check
+	const tokenToCheck = localStorage.getItem('token')
+	useEffect(() => {
+		axiosBasic
+			.post('/auth/check', tokenToCheck, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.catch(() => navigate('/auth', { replace: true }))
+	}, [tokenToCheck])
+	return <div></div>
 }
 
 export default Home

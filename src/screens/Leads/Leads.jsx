@@ -7,6 +7,7 @@ import { usersModel } from '../../store/usersModel'
 import Filter from './Filter/Filter'
 import './Leads.scss'
 import MainTable from './Tables/MainTable'
+import { useNavigate } from 'react-router-dom'
 
 const Leads = () => {
 	const [loading, setLoading] = useState(false)
@@ -19,6 +20,19 @@ const Leads = () => {
 	const [dateFrom, setDateFrom] = useState('')
 	const [dateTo, setDateTo] = useState('')
 	const [countUsers, setCountUsers] = useState(0)
+
+	const navigate = useNavigate()
+	// check
+	const tokenToCheck = localStorage.getItem('token')
+	useEffect(() => {
+		axiosBasic
+			.post('/auth/check', tokenToCheck, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.catch(() => navigate('/auth', { replace: true }))
+	}, [tokenToCheck])
 
 	// table
 	useEffect(() => {

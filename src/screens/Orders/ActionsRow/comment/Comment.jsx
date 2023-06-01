@@ -8,14 +8,15 @@ const Comment = user => {
 	const [open, setOpen] = useState(false)
 	const dispatch = useDispatch()
 	const [comment, setComment] = useState({
-		...user.user,
+		// ...user.order,
 		comment: '',
 	})
+	// console.log(user)
 
 	const send = () => {
 		setOpen(false)
 		axiosBasic
-			.put(`/leads/${user.user.id}`, comment, {
+			.put(`/leads/${user.order.id}`, comment, {
 				headers: {
 					Authorization: 'Bearer ' + localStorage.getItem('token'),
 				},
@@ -32,7 +33,7 @@ const Comment = user => {
 		<div className='flex flex-col gap-y-5'>
 			<textarea
 				value={comment.comment}
-				onChange={e => setComment({ ...comment, comment: e.target.value })}
+				onChange={e => setComment({ comment: e.target.value })}
 				rows={4}
 				type='text'
 				className='border-[1px] border-black py-2 px-4 rounded-md min-h-[100px] resize-none'

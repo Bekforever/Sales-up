@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow'
 import { Drawer, Select, Spin } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import axiosBasic from '../../services/axios/axiosBasic'
 import { sourceModel } from '../../store/sourceModel'
 import Actions from './Actions/Actions'
@@ -36,6 +37,19 @@ const Source = () => {
 		},
 	])
 	const srcs = useSelector(store => store.source.source)
+
+	const navigate = useNavigate()
+	// check
+	const tokenToCheck = localStorage.getItem('token')
+	useEffect(() => {
+		axiosBasic
+			.post('/auth/check', tokenToCheck, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.catch(() => navigate('/auth', { replace: true }))
+	}, [tokenToCheck])
 
 	//table
 	useEffect(() => {

@@ -2,7 +2,6 @@ import { Menu } from 'antd'
 import Sider from 'antd/es/layout/Sider'
 import Layout, { Content } from 'antd/es/layout/layout'
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import axiosBasic from '../../services/axios/axiosBasic'
 import './Layout.scss'
@@ -15,8 +14,7 @@ const Layouts = () => {
 	const langList = ['ru', 'en']
 	const langName = langList[selectedLang]
 	const [currentUser, setCurrentUser] = useState('')
-	const [token, setToken] = useState(localStorage.getItem('token'))
-	const dispatch = useDispatch()
+	const token = useState(localStorage.getItem('token'))
 
 	// check token
 	useEffect(() => {
@@ -57,9 +55,8 @@ const Layouts = () => {
 				},
 			})
 			.then(() => {
-				// navigate('/auth', { replace: true })
-				// localStorage.removeItem('token')
-				// dispatch(removeToken)
+				navigate('/auth', { replace: true })
+				localStorage.removeItem('token')
 			})
 			.catch(() => navigate('/auth', { replace: true }))
 	}

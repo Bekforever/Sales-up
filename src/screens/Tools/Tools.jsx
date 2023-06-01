@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow'
 import { Drawer, Select } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import axiosBasic from '../../services/axios/axiosBasic.js'
 import { toolsModel } from '../../store/toolsModel/index.js'
 import ActionsRow from './Actions/ActionsRow.jsx'
@@ -19,6 +20,19 @@ const Tools = ({ page, setPage, rowsPerPage, setRowsPerPage }) => {
 	const tools = useSelector(state => state.tools.tools)
 	const [open, setOpen] = useState(false)
 	const [options, setOptions] = useState([])
+
+	const navigate = useNavigate()
+	// check
+	const tokenToCheck = localStorage.getItem('token')
+	useEffect(() => {
+		axiosBasic
+			.post('/auth/check', tokenToCheck, {
+				headers: {
+					Authorization: 'Bearer ' + localStorage.getItem('token'),
+				},
+			})
+			.catch(() => navigate('/auth', { replace: true }))
+	}, [tokenToCheck])
 
 	useEffect(() => {
 		axiosBasic

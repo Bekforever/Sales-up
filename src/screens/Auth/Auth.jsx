@@ -4,15 +4,14 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import axiosBasic from '../../services/axios/axiosBasic'
 import './Auth.scss'
-import { authModel } from '../../store/authModel'
 
 const Auth = () => {
 	const [currentUser, setCurrentUser] = useState({
 		phone: '',
 		password: '',
 	})
-	const navigate = useNavigate()
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	// check
 	useEffect(() => {
 		const tokenToCheck = localStorage.getItem('token')
@@ -34,7 +33,7 @@ const Auth = () => {
 		axiosBasic
 			.post('/auth/login', currentUser)
 			.then(res => {
-				dispatch(authModel.actions.addToken(res.data.data.token))
+				localStorage.setItem('token', 'Bearer ' + res.data.data.token)
 				navigate('/', { replace: true })
 			})
 			.catch(e => console.log(e))
