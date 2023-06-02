@@ -1,6 +1,6 @@
 import { Spin } from 'antd/lib'
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useDebounce } from '../../hooks/useDebounce'
 import axiosBasic from '../../services/axios/axiosBasic'
 import { ordersModel } from '../../store/ordersModel'
@@ -19,7 +19,7 @@ const Orders = () => {
 	const debouncedLeadId = useDebounce(leadId, 500)
 	const [dateFrom, setDateFrom] = useState('')
 	const [dateTo, setDateTo] = useState('')
-
+	const sel = useSelector(state => state.orders.render)
 	const navigate = useNavigate()
 	// check
 	const tokenToCheck = localStorage.getItem('token')
@@ -53,7 +53,7 @@ const Orders = () => {
 			.finally(() => {
 				setLoading(false)
 			})
-	}, [page, debouncedCourseId, debouncedLeadId, dateFrom, dateTo])
+	}, [page, debouncedCourseId, debouncedLeadId, dateFrom, dateTo, sel])
 
 	return (
 		<Spin spinning={loading}>

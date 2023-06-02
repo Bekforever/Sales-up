@@ -28,26 +28,22 @@ const Actions = ({ source }) => {
 
 	const removeSource = () => {
 		dispatch(sourceModel.actions.removeSource(source.id))
-		axiosBasic
-			.delete(`/sources/${source.id}`, {
-				headers: {
-					Authorization: 'Bearer ' + localStorage.getItem('token'),
-				},
-			})
-			.then(res => console.log(res))
+		axiosBasic.delete(`/sources/${source.id}`, {
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token'),
+			},
+		})
 	}
 
 	const onSelect = e => setNewDataSource({ ...newDataSource, type: e })
 
 	const onSubmit = () => {
 		const obj = { id: source.id, ...newDataSource }
-		axiosBasic
-			.put(`/sources/${source.id}`, obj, {
-				headers: {
-					Authorization: 'Bearer ' + localStorage.getItem('token'),
-				},
-			})
-			.then(res => console.log(res))
+		axiosBasic.put(`/sources/${source.id}`, obj, {
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token'),
+			},
+		})
 		dispatch(
 			sourceModel.actions.editSource({
 				...source,

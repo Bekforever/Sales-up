@@ -24,7 +24,6 @@ const Bot = () => {
 				},
 			})
 			.then(res => {
-				console.log(res.data)
 				dispatch(botsModel.actions.removeBot(bot.id))
 				setRender(render + 1)
 			})

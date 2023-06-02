@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
 	orders: [],
+	render: 0,
 }
 
 export const { reducer, actions: reducerActions } = createSlice({
@@ -13,6 +14,9 @@ export const { reducer, actions: reducerActions } = createSlice({
 		},
 		changeStatus: (state, action) => {
 			state.users = action.payload
+		},
+		commentOrder: state => {
+			state.render = state.render + 1
 		},
 	},
 })

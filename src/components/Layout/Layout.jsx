@@ -25,7 +25,6 @@ const Layouts = () => {
 				},
 			})
 			.then(res => {
-				// console.log(res)
 				setCurrentUser(res.data.data.name)
 			})
 			.catch(() => navigate('/auth', { replace: true }))

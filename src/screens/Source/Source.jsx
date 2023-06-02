@@ -86,9 +86,7 @@ const Source = () => {
 					Authorization: 'Bearer ' + localStorage.getItem('token'),
 				},
 			})
-			.then(res => console.log(res))
 			.finally(() => setLoading(false))
-		console.log(sel)
 		setOpen(false)
 		setNewSource({
 			name: '',

@@ -20,7 +20,6 @@ const Create = () => {
 				},
 			})
 			.then(res => {
-				console.log(res.data)
 				dispatch(botsModel.actions.render())
 			})
 	}

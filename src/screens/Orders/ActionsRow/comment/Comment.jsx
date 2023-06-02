@@ -2,26 +2,27 @@ import { Popover } from 'antd'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import axiosBasic from '../../../../services/axios/axiosBasic.js'
+import { ordersModel } from '../../../../store/ordersModel/index.js'
 import { usersModel } from '../../../../store/usersModel'
 
 const Comment = user => {
 	const [open, setOpen] = useState(false)
 	const dispatch = useDispatch()
 	const [comment, setComment] = useState({
-		// ...user.order,
 		comment: '',
 	})
-	// console.log(user)
 
 	const send = () => {
 		setOpen(false)
 		axiosBasic
-			.put(`/leads/${user.order.id}`, comment, {
+			.put(`/orders/${user.order.id}`, comment, {
 				headers: {
 					Authorization: 'Bearer ' + localStorage.getItem('token'),
 				},
 			})
-			.then(res => console.log(res.data))
+			.then(res => {
+				dispatch(ordersModel.actions.commentOrder())
+			})
 		dispatch(usersModel.actions.addComment(comment))
 	}
 

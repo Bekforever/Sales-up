@@ -17,7 +17,6 @@ const Telegram = order => {
 					Authorization: 'Bearer ' + localStorage.getItem('token'),
 				},
 			})
-			.then(res => console.log(res))
 	}
 
 	const handleOpenChange = newOpen => {

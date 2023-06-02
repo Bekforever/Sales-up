@@ -25,7 +25,6 @@ const ActionsTable = ({ course, setIsEdited, isEdited }) => {
 					Authorization: 'Bearer ' + localStorage.getItem('token'),
 				},
 			})
-			.then(res => console.log(res))
 	}
 
 	const onEditSubmit = () => {

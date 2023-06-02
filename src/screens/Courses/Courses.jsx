@@ -60,7 +60,6 @@ const Courses = () => {
 	}
 
 	const onSubmit = () => {
-		console.log(newCourse)
 		setLoading(true)
 		dispatch(courseModel.actions.addCourse(newCourse))
 		axiosBasic
