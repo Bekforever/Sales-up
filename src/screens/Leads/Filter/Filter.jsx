@@ -1,7 +1,7 @@
 import { Button, IconButton, TextField } from '@mui/material'
-import { Popover } from 'antd'
+import { Form, Popover } from 'antd'
 import { DatePicker } from 'antd/lib'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import axiosBasic from '../../../services/axios/axiosBasic'
 const { RangePicker } = DatePicker
 
@@ -17,6 +17,7 @@ const Filter = ({
 }) => {
 	const [messageToAll, setMessageToAll] = useState({ text: '' })
 	const [open, setOpen] = useState(false)
+	const date = useRef(['', ''])
 
 	const send = () => {
 		setOpen(false)
@@ -60,7 +61,8 @@ const Filter = ({
 		}
 	}
 
-	const clearValues = () => {
+	const clearValues = e => {
+		e.preventDefault()
 		setName('')
 		setPhone('')
 		setDateFrom('')
@@ -70,7 +72,7 @@ const Filter = ({
 	return (
 		<>
 			<div className='leads__wrapper p-5'>
-				<form className='search flex items-center gap-5 mb-2'>
+				<Form className='search flex items-center gap-5 mb-2'>
 					<label>
 						<TextField
 							value={name}
@@ -90,11 +92,7 @@ const Filter = ({
 						/>
 					</label>
 					<label>
-						<RangePicker
-							className='px-4 py-4'
-							defaultValue={(dateFrom, dateTo)}
-							onChange={onRangeChange}
-						/>
+						<RangePicker className='px-4 py-4' onChange={onRangeChange} />
 					</label>
 					<div>
 						<Button type={'text'} onClick={clearValues}>
@@ -112,7 +110,7 @@ const Filter = ({
 							</IconButton>
 						</Popover>
 					</div>
-				</form>
+				</Form>
 			</div>
 		</>
 	)
