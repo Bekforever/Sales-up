@@ -16,7 +16,10 @@ const Status = ({ setRenderStatus, renderStatus }) => {
 					Authorization: 'Bearer ' + localStorage.getItem('token'),
 				},
 			})
-			.then(() => setRenderStatus(renderStatus + 1))
+			.then(() => {
+				setRenderStatus(renderStatus + 1)
+				setNewStatus({ name: '' })
+			})
 	}
 
 	return (
@@ -46,18 +49,23 @@ const Status = ({ setRenderStatus, renderStatus }) => {
 								className='flex items-center justify-between border-[1px] border-[#adadad] py-3 px-2 rounded-md text-lg'
 							>
 								<span>{status.name}</span>
-								<div className='flex items-center text-2xl gap-x-5 text-[#797575]'>
-									<Edit
-										item={status}
-										renderStatus={renderStatus}
-										setRenderStatus={setRenderStatus}
-									/>
-									<Remove
-										renderStatus={renderStatus}
-										setRenderStatus={setRenderStatus}
-										item={status}
-									/>
-								</div>
+								{status.name === 'started' ||
+								status.name === 'registred' ||
+								status.name === 'ordered' ||
+								status.name === 'called' ? null : (
+									<div className='flex items-center text-2xl gap-x-5 text-[#797575]'>
+										<Edit
+											item={status}
+											renderStatus={renderStatus}
+											setRenderStatus={setRenderStatus}
+										/>
+										<Remove
+											renderStatus={renderStatus}
+											setRenderStatus={setRenderStatus}
+											item={status}
+										/>
+									</div>
+								)}
 							</li>
 						))}
 				</ul>

@@ -27,9 +27,12 @@ const Comment = user => {
 		setOpen(open)
 	}
 
+	
+
 	const content = () => (
 		<div className='flex flex-col gap-y-5'>
 			<textarea
+			maxLength={200}
 				value={comment.comment}
 				onChange={e => setComment({ ...comment, comment: e.target.value })}
 				rows={4}

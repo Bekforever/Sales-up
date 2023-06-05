@@ -64,6 +64,8 @@ const Leads = () => {
 				phone={phone}
 				setPhone={setPhone}
 				setDateFrom={setDateFrom}
+				dateFrom={dateFrom}
+				dateTo={dateTo}
 				setDateTo={setDateTo}
 			/>
 			<MainTable countUsers={countUsers} page={page} setPage={setPage} />

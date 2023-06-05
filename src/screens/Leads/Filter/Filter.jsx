@@ -1,12 +1,20 @@
 import { Button, IconButton, TextField } from '@mui/material'
 import { Popover } from 'antd'
 import { DatePicker } from 'antd/lib'
-import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import axiosBasic from '../../../services/axios/axiosBasic'
 const { RangePicker } = DatePicker
 
-const Filter = ({ name, setName, phone, setPhone, setDateFrom, setDateTo }) => {
+const Filter = ({
+	name,
+	setName,
+	phone,
+	setPhone,
+	setDateFrom,
+	setDateTo,
+	dateFrom,
+	dateTo,
+}) => {
 	const [messageToAll, setMessageToAll] = useState({ text: '' })
 	const [open, setOpen] = useState(false)
 
@@ -46,40 +54,23 @@ const Filter = ({ name, setName, phone, setPhone, setDateFrom, setDateTo }) => {
 		if (dates) {
 			setDateFrom(dateStrings[0])
 			setDateTo(dateStrings[1])
-			console.log('From: ', dates[0], ', to: ', dates[1])
-			console.log('From: ', dateStrings[0], ', to: ', dateStrings[1])
+			console.log(dates)
 		} else {
 			console.log('Clear')
 		}
 	}
-	const rangePresets = [
-		{
-			label: 'Last 7 Days',
-			value: [dayjs().add(-7, 'd'), dayjs()],
-		},
-		{
-			label: 'Last 14 Days',
-			value: [dayjs().add(-14, 'd'), dayjs()],
-		},
-		{
-			label: 'Last 30 Days',
-			value: [dayjs().add(-30, 'd'), dayjs()],
-		},
-		{
-			label: 'Last 90 Days',
-			value: [dayjs().add(-90, 'd'), dayjs()],
-		},
-	]
 
 	const clearValues = () => {
 		setName('')
 		setPhone('')
+		setDateFrom('')
+		setDateTo('')
 	}
 
 	return (
 		<>
 			<div className='leads__wrapper p-5'>
-				<div className='search flex items-center gap-5 mb-2'>
+				<form className='search flex items-center gap-5 mb-2'>
 					<label>
 						<TextField
 							value={name}
@@ -101,7 +92,7 @@ const Filter = ({ name, setName, phone, setPhone, setDateFrom, setDateTo }) => {
 					<label>
 						<RangePicker
 							className='px-4 py-4'
-							presets={rangePresets}
+							defaultValue={(dateFrom, dateTo)}
 							onChange={onRangeChange}
 						/>
 					</label>
@@ -121,7 +112,7 @@ const Filter = ({ name, setName, phone, setPhone, setDateFrom, setDateTo }) => {
 							</IconButton>
 						</Popover>
 					</div>
-				</div>
+				</form>
 			</div>
 		</>
 	)

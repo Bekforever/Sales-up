@@ -1,3 +1,5 @@
+import { QuestionCircleOutlined } from '@ant-design/icons'
+import { Popconfirm } from 'antd'
 import moment from 'moment/moment.js'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -57,12 +59,21 @@ const Bot = () => {
 						</tr>
 						<tr>
 							<td>
-								<button
-									onClick={removeBot}
-									className='text-red-500 font-semibold'
+								<Popconfirm
+									onConfirm={removeBot}
+									title='Удаление'
+									icon={
+										<QuestionCircleOutlined
+											style={{
+												color: 'red',
+											}}
+										/>
+									}
+									description='Вы хотите удалить бота?'
+									okButtonProps={{ style: { backgroundColor: 'blue' } }}
 								>
-									DELETE
-								</button>
+									<button className='text-red-500 font-semibold'>DELETE</button>
+								</Popconfirm>
 							</td>
 						</tr>
 					</tbody>

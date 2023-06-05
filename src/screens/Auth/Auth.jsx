@@ -10,6 +10,7 @@ const Auth = () => {
 		phone: '',
 		password: '',
 	})
+	const [errorMessage, setErrorMessage] = useState('')
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	// check
@@ -36,19 +37,27 @@ const Auth = () => {
 				localStorage.setItem('token', 'Bearer ' + res.data.data.token)
 				navigate('/', { replace: true })
 			})
-			.catch(e => console.log(e))
+			.catch(e => setErrorMessage(e.response.data.message))
 	}
 
 	return (
 		<div className='form__wrapper'>
 			<form className='form'>
 				<h1>Login</h1>
+				{errorMessage !== '' ? (
+					<h2 className='border-[1px] border-red-500 py-2 px-10 rounded-md'>
+						{errorMessage}
+					</h2>
+				) : (
+					''
+				)}
 				<input
 					type='text'
 					placeholder='Enter your phone number'
-					onChange={e =>
+					onChange={e => {
 						setCurrentUser({ ...currentUser, phone: e.target.value })
-					}
+						setErrorMessage('')
+					}}
 					className='number'
 				/>
 				<input

@@ -1,5 +1,6 @@
+import { QuestionCircleOutlined } from '@ant-design/icons'
 import { Button } from '@mui/material'
-import { Popover, Select } from 'antd'
+import { Popconfirm, Popover, Select } from 'antd'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import axiosBasic from '../../../services/axios/axiosBasic'
@@ -94,9 +95,23 @@ const Actions = ({ source }) => {
 						<i className='bx bx-pencil text-2xl text-[#797575]'></i>
 					</button>
 				</Popover>
-				<button onClick={removeSource}>
-					<i className='bx bx-trash text-2xl text-[#797575]'></i>
-				</button>
+				<Popconfirm
+					onConfirm={removeSource}
+					title='Удаление'
+					icon={
+						<QuestionCircleOutlined
+							style={{
+								color: 'red',
+							}}
+						/>
+					}
+					description='Вы хотите удалить источник?'
+					okButtonProps={{ style: { backgroundColor: 'blue' } }}
+				>
+					<button>
+						<i className='bx bx-trash text-2xl text-[#797575]'></i>
+					</button>
+				</Popconfirm>
 			</div>
 		</>
 	)

@@ -22,6 +22,13 @@ const Create = () => {
 			.then(res => {
 				dispatch(botsModel.actions.render())
 			})
+			.finally(() =>
+				setNewBot({
+					token: '',
+					username: '',
+					contact: '',
+				})
+			)
 	}
 
 	return (

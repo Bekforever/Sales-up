@@ -1,5 +1,6 @@
+import { QuestionCircleOutlined } from '@ant-design/icons'
 import { Button } from '@mui/material'
-import { Popover } from 'antd'
+import { Popconfirm, Popover } from 'antd'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import axiosBasic from '../../../services/axios/axiosBasic'
@@ -19,12 +20,11 @@ const ActionsTable = ({ course, setIsEdited, isEdited }) => {
 
 	const removeCource = () => {
 		dispatch(courseModel.actions.removeCource(course.id))
-		axiosBasic
-			.delete(`/courses/${course.id}`, {
-				headers: {
-					Authorization: 'Bearer ' + localStorage.getItem('token'),
-				},
-			})
+		axiosBasic.delete(`/courses/${course.id}`, {
+			headers: {
+				Authorization: 'Bearer ' + localStorage.getItem('token'),
+			},
+		})
 	}
 
 	const onEditSubmit = () => {
@@ -97,9 +97,23 @@ const ActionsTable = ({ course, setIsEdited, isEdited }) => {
 						<i className='bx bx-pencil text-2xl text-[#797575]'></i>
 					</button>
 				</Popover>
-				<button onClick={removeCource}>
-					<i className='bx bx-trash text-2xl text-[#797575]'></i>
-				</button>
+				<Popconfirm
+					onConfirm={removeCource}
+					title='Удаление'
+					icon={
+						<QuestionCircleOutlined
+							style={{
+								color: 'red',
+							}}
+						/>
+					}
+					description='Вы хотите удалить курс?'
+					okButtonProps={{ style: { backgroundColor: 'blue' } }}
+				>
+					<button>
+						<i className='bx bx-trash text-2xl text-[#797575]'></i>
+					</button>
+				</Popconfirm>
 			</div>
 		</>
 	)
