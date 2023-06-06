@@ -101,7 +101,7 @@ const Layouts = () => {
 
 	return (
 		<div className='layout__wrapper'>
-			<aside className='layout__wrapper__aside'>
+			<aside className='layout__wrapper__aside sticky top-0 h-screen overflow-y-auto'>
 				<Layout
 					className='layout__wrapper__aside__lay-out'
 					style={{ minHeight: '100vh' }}

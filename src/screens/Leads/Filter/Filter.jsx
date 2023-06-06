@@ -1,6 +1,7 @@
 import { Button, IconButton, TextField } from '@mui/material'
 import { Form, Popover } from 'antd'
 import { DatePicker } from 'antd/lib'
+import moment from 'moment/moment'
 import React, { useRef, useState } from 'react'
 import axiosBasic from '../../../services/axios/axiosBasic'
 const { RangePicker } = DatePicker
@@ -17,7 +18,8 @@ const Filter = ({
 }) => {
 	const [messageToAll, setMessageToAll] = useState({ text: '' })
 	const [open, setOpen] = useState(false)
-	const date = useRef(['', ''])
+	const date = useRef(null)
+	const [dates, setDates] = useState([])
 
 	const send = () => {
 		setOpen(false)
@@ -34,6 +36,8 @@ const Filter = ({
 	const handleOpenChange = newOpen => {
 		setOpen(newOpen)
 	}
+
+	console.log(dayjs().format(null))
 
 	const content = () => (
 		<div className='flex flex-col gap-y-5'>
@@ -55,7 +59,10 @@ const Filter = ({
 		if (dates) {
 			setDateFrom(dateStrings[0])
 			setDateTo(dateStrings[1])
-			console.log(dates)
+			setDates([
+				moment(dateStrings[0], 'YYYY-MM-DD'),
+				moment(dateStrings[1], 'YYYY-MM-DD'),
+			])
 		} else {
 			console.log('Clear')
 		}
@@ -67,6 +74,7 @@ const Filter = ({
 		setPhone('')
 		setDateFrom('')
 		setDateTo('')
+		setDates([])
 	}
 
 	return (
@@ -92,7 +100,12 @@ const Filter = ({
 						/>
 					</label>
 					<label>
-						<RangePicker className='px-4 py-4' onChange={onRangeChange} />
+						<RangePicker
+							value={dates}
+							allowClear
+							className='px-4 py-4'
+							onChange={onRangeChange}
+						/>
 					</label>
 					<div>
 						<Button type={'text'} onClick={clearValues}>
