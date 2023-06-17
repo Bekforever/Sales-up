@@ -14,30 +14,30 @@ const Auth = () => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	// check
-	useEffect(() => {
-		const tokenToCheck = localStorage.getItem('token')
-		axiosBasic
-			.post('/auth/check', tokenToCheck, {
-				headers: {
-					Authorization: 'Bearer ' + localStorage.getItem('token'),
-				},
-			})
-			.then(res => {
-				navigate('/', { replace: true })
-			})
-			.catch(err => console.log(err))
-	}, [])
+	// useEffect(() => {
+	// 	const tokenToCheck = localStorage.getItem('token')
+	// 	axiosBasic
+	// 		.post('/auth/check', tokenToCheck, {
+	// 			headers: {
+	// 				Authorization: 'Bearer ' + localStorage.getItem('token'),
+	// 			},
+	// 		})
+	// 		.then(res => {
+	// 			navigate('/', { replace: true })
+	// 		})
+	// 		.catch(err => console.log(err))
+	// }, [])
 
 	// on click submit button
 	const login = e => {
 		e.preventDefault()
-		axiosBasic
-			.post('/auth/login', currentUser)
-			.then(res => {
-				localStorage.setItem('token', 'Bearer ' + res.data.data.token)
-				navigate('/', { replace: true })
-			})
-			.catch(e => setErrorMessage(e.response.data.message))
+		navigate('/', { replace: true })
+		// axiosBasic
+		// 	.post('/auth/login', currentUser)
+		// 	.then(res => {
+		// 		localStorage.setItem('token', 'Bearer ' + res.data.data.token)
+		// 	})
+		// 	.catch(e => console.log(e.response))
 	}
 
 	return (
