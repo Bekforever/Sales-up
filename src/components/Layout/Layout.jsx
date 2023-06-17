@@ -17,18 +17,18 @@ const Layouts = () => {
 	const token = useState(localStorage.getItem('token'))
 
 	// check token
-	useEffect(() => {
-		axiosBasic
-			.post('/auth/check', token, {
-				headers: {
-					Authorization: 'Bearer ' + localStorage.getItem('token'),
-				},
-			})
-			.then(res => {
-				setCurrentUser(res.data.data.name)
-			})
-			.catch(() => navigate('/auth', { replace: true }))
-	}, [token])
+	// useEffect(() => {
+	// 	axiosBasic
+	// 		.post('/auth/check', token, {
+	// 			headers: {
+	// 				Authorization: 'Bearer ' + localStorage.getItem('token'),
+	// 			},
+	// 		})
+	// 		.then(res => {
+	// 			setCurrentUser(res.data.data.name)
+	// 		})
+	// 		.catch(() => navigate('/auth', { replace: true }))
+	// }, [token])
 
 	// onclick language
 	const onClickListItem = i => {

@@ -22,17 +22,17 @@ const Tools = ({ page, setPage, rowsPerPage, setRowsPerPage }) => {
 	const [options, setOptions] = useState([])
 
 	const navigate = useNavigate()
-	// check
-	const tokenToCheck = localStorage.getItem('token')
-	useEffect(() => {
-		axiosBasic
-			.post('/auth/check', tokenToCheck, {
-				headers: {
-					Authorization: 'Bearer ' + localStorage.getItem('token'),
-				},
-			})
-			.catch(() => navigate('/auth', { replace: true }))
-	}, [tokenToCheck])
+	// // check
+	// const tokenToCheck = localStorage.getItem('token')
+	// useEffect(() => {
+	// 	axiosBasic
+	// 		.post('/auth/check', tokenToCheck, {
+	// 			headers: {
+	// 				Authorization: 'Bearer ' + localStorage.getItem('token'),
+	// 			},
+	// 		})
+	// 		.catch(() => navigate('/auth', { replace: true }))
+	// }, [tokenToCheck])
 
 	useEffect(() => {
 		axiosBasic

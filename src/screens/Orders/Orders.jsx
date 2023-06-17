@@ -22,16 +22,16 @@ const Orders = () => {
 	const sel = useSelector(state => state.orders.render)
 	const navigate = useNavigate()
 	// check
-	const tokenToCheck = localStorage.getItem('token')
-	useEffect(() => {
-		axiosBasic
-			.post('/auth/check', tokenToCheck, {
-				headers: {
-					Authorization: 'Bearer ' + localStorage.getItem('token'),
-				},
-			})
-			.catch(() => navigate('/auth', { replace: true }))
-	}, [tokenToCheck])
+	// const tokenToCheck = localStorage.getItem('token')
+	// useEffect(() => {
+	// 	axiosBasic
+	// 		.post('/auth/check', tokenToCheck, {
+	// 			headers: {
+	// 				Authorization: 'Bearer ' + localStorage.getItem('token'),
+	// 			},
+	// 		})
+	// 		.catch(() => navigate('/auth', { replace: true }))
+	// }, [tokenToCheck])
 
 	// table
 	useEffect(() => {
